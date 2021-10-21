@@ -8,9 +8,7 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
 
-@{
-
-    var sessionParams = (SessionParams)Model.SessionParamsData;
+@{ var sessionParams = (SessionParams)Model.SessionParamsData;
 
     PortalCatalogLimpet portalCatalog = null;
     var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
@@ -25,42 +23,15 @@
     }
     var categoryData = new CategoryLimpet(portalCatalog.PortalId, catid, DNNrocketUtils.GetCurrentCulture());
 
-    @AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + portalCatalog.AppTheme.AppThemeFolder + "/" + portalCatalog.AppTheme.AppVersionFolder + "/resx/")
-}
-
-<!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-theme w3-collapse w3-top w3-large w3-card " style="z-index:3;width:300px;font-weight:bold;" id="mySidebar">
-    <div class="w3-xlarge w3-border-bottom w3-border-right w3-padding" style="height:51px;">
-        @portalData.Name
-    </div>
-    <div class="w3-bar-block w3-border-right" style="">
-        @{
-            var navlp = 1;
-        }
-        @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
-        {
-            if (navlp == 1)
-            {
-                <a href="#" class="w3-bar-item w3-button w3-hover-white w3-text-black">@(articleData.Name)</a>
-            }
-            else
-            {
-                <a href="#sectionanchor@(articleData.Ref)" class="w3-bar-item w3-button w3-hover-white w3-text-black">@(articleData.Name)</a>
-            }
-            navlp += 1;
-        }
-    </div>
-</nav>
+@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + portalCatalog.AppTheme.AppThemeFolder + "/" + portalCatalog.AppTheme.AppVersionFolder + "/resx/") }
 
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:300px;">
+<div class="w3-main" style="">
 
-    <!-- Navbar -->
-    <div class="w3-top">
+
+    <div class="">
         <div class="w3-bar w3-theme w3-left-align w3-large ">
-            @{
-                var catcolor = "";
-            }
+            @{ var catcolor = ""; }
             @foreach (CategoryLimpet c in categoryList.GetCategoryList())
             {
                 if (categoryData.CategoryId == c.CategoryId)
@@ -71,132 +42,50 @@
                 {
                     catcolor = "";
                 }
-                <a href="@(c.CategoryUrl(sessionParams))" class="w3-bar-item @(catcolor) w3-button w3-text-black w3-padding-large w3-hover-theme" style="text-decoration: none;">@c.Name</a>
-            }
+<a href="@(c.CategoryUrl(sessionParams))" class="w3-bar-item @(catcolor) w3-button w3-text-black w3-padding-large w3-hover-theme" style="text-decoration: none;">@c.Name</a>}
         </div>
     </div>
 
-    <div class="" style="margin-right:40px;">
+    <div class="w3-xlarge" style="margin-right:40px;">
+
+
+
 
         <!-- Header -->
-        <div class="w3-container w3-margin-bottom" style="padding-top: 60px;">
-            <h1 class="w3-jumbo"><b>@categoryData.Name</b></h1>
+        <div class="w3-container" style="margin-top:80px" id="starters">
+            <h1 class="w3-jumbo"><b>The Menu</b></h1>
+            <h1 class="w3-xxxlarge w3-text-red"><b>@categoryData.Name</b></h1>
+            <hr style="width:50px;border:5px solid red" class="w3-round" />
         </div>
 
-        @{
-            var lp1 = 0;
-        }
+        @{ var lp1 = 0; }
+
         @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
         {
             lp1 += 1;
-            <div id="sectionanchor@(articleData.Ref)" class="w3-margin">&nbsp;</div>
-            <div class="w3-row w3-padding">
-                <h2 class="w3-xxxlarge w3-text-teal"><b>@articleData.Name</b></h2>
-                <div class="w3-row">
-                    @BreakOf(articleData.Summary)
-                </div>
-                <div class="w3-row">
-                    @HtmlOf(articleData.RichText)
-                </div>
-                <div class="w3-row">
-                    @HtmlOf(BreakOf(articleData.Info.GetXmlProperty("genxml/lang/genxml/textbox/html")).ToString())
-                </div>
-                <div class="w3-row">
-                    @{
-                        var doclp = 0;
-                    }
-                    @foreach (ArticleDoc doc in articleData.GetDocs())
-                    {
-                        @DownloadDocument("RocketCatalog", portalData.EngineUrlWithProtocol, articleData.ArticleId, doclp, doc.FieldId, doc.Name, " class='w3-button'", "documentlist")
-                        doclp += 1;
-                    }
-                </div>
-
-                @* ----- Document Gallery: BEGIN ------------------------------------------ *@
-                @{
-                    var doclist = articleData.GetDocs();
-                }
-                @if (doclist.Count > 0)
-                {
-                    <div class="w3-container">
-                        <div class="w3-bar-block w3-light-grey ">
-                            @foreach (ArticleDoc articleDoc in doclist)
-                            {
-                                if (!articleDoc.Hidden && articleDoc.RelPath != "")
-                                {
-                                    <a href="@(portalData.EngineUrlWithProtocol + articleDoc.RelPath)" class="w3-bar-item w3-button w3-center w3-margin-bottom" download>@articleDoc.Name</a>
-                                }
-                            }
-                        </div>
-                    </div>
-                }
-                    @* ----- Document Gallery: END ------------------------------------------ *@
 
 
-                    @* ----- Link Gallery: START ------------------------------------------ *@
-                    @{
-                        var linklist = articleData.Getlinks();
-                    }
-                    @if (linklist.Count > 0)
-                    {
-                        <div class="w3-container">
-                            <div class="w3-bar-block w3-light-grey">
-                                @foreach (ArticleLink articleLink in linklist)
-                                {
-                                    if (!articleLink.Hidden && articleLink.Url != "")
-                                    {
-                                        <a href="@(articleLink.Url)" target="@(articleLink.Target)" class="w3-bar-item w3-button w3-center">@articleLink.Name</a>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    }
-                    @* ----- Link Gallery: END -------------------------------------------- *@
-
-                    @* ----- Image Gallery: START ------------------------------------------ *@
-            <div class="w3-row w3-padding">
-                @{
-                    var imglp = 0;
-                    var imageList2 = articleData.GetImages();
-                }
-                @foreach (ArticleImage i2 in imageList2)
-                {
-                    if (!i2.Hidden)
-                    {
-                        <div class="w3-quarter">
-                            <img src="@ThumbnailImageWebsiteDomainUrl(portalData.EngineUrlWithProtocol, i2.RelPath, 640, -1)" style="width: 90%;cursor:pointer;" onclick="onImgClick(this)" alt="@i2.Alt">
-                        </div>
-                    }
-                    imglp += 1;
-                }
-                <!-- Modal for full size images on click-->
-                <div id="modal01" class="w3-modal w3-black" style="z-index:10;padding-top:0" onclick="this.style.display='none'">
-                    <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
-                    <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
-                        <img id="img01" class="w3-image">
-                        <p id="caption"></p>
-                    </div>
-                </div>
-                @* ----- Image Gallery: END ------------------------------------------ *@
-            </div>
-
-
-                </div>
-                }
-            </div>
-
+<div w3-row>
+    <div class="w3-col m8">
+        <div class="w3-text-blue">@(articleData.Ref) - @(articleData.Name)</div>
+        <div class="w3-small w3-margin-left">@BreakOf(articleData.Summary)</div>
+    </div>
+    <div class="w3-col m4 w3-right-align">@(articleData.Info.GetXmlProperty("genxml/textbox/price"))</div>
 </div>
 
-<script>
-    $(document).ready(function () {
-    });
+                <div id="sectionanchor@(articleData.Ref)" class="w3-margin">&nbsp;</div>
+                                <div class="w3-row w3-padding">
+                                    <h2 class="w3-xxxlarge w3-text-teal"><b></b></h2>
+                                    <div class="w3-row">
 
-    // Modal Image Gallery
-    function onImgClick(element) {
-        document.getElementById("img01").src = element.src;
-        document.getElementById("modal01").style.display = "block";
-        var captionText = document.getElementById("caption");
-        captionText.innerHTML = element.alt;
-    }
+                                    </div>
+                                </div>
+                                <div class="w3-col m4 w3-right-align">@(articleData.Info.GetXmlProperty("genxml/textbox/test"))</div>                       
+                                
+         }
+    </div>
+    
+</div>
 
-</script>
+
+

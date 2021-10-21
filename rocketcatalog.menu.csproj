@@ -4,4 +4,34 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="DNNrocketAPI">
+      <HintPath>..\..\..\bin\DNNrocketAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="DNNrocketCountry">
+      <HintPath>..\..\..\bin\DNNrocketCountry.dll</HintPath>
+    </Reference>
+    <Reference Include="DNNrocketDocuments">
+      <HintPath>..\..\..\bin\DNNrocketDocuments.dll</HintPath>
+    </Reference>
+    <Reference Include="DNNrocketImages">
+      <HintPath>..\..\..\bin\DNNrocketImages.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine">
+      <HintPath>..\..\..\bin\RazorEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="RocketAppThemes">
+      <HintPath>..\..\..\bin\RocketAppThemes.dll</HintPath>
+    </Reference>
+    <Reference Include="RocketCatalog">
+      <HintPath>..\..\..\bin\RocketCatalog.dll</HintPath>
+    </Reference>
+    <Reference Include="RocketPortal">
+      <HintPath>..\..\..\bin\RocketPortal.dll</HintPath>
+    </Reference>
+    <Reference Include="Simplisity">
+      <HintPath>..\..\..\bin\Simplisity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
